@@ -1,0 +1,313 @@
+    1  exit
+    2  uptime 
+    3  pwd
+    4  ssh root@utility 
+    5  mkdir work 
+    6  cd work/
+    7  pwd
+    8  ll
+    9  cp -rpv ../kube* .
+   10  ll
+   11  cat kubeadmin-password 
+   12  cat kubeconfig | grep server
+   13  cat kubeconfig | grep server > mypass.txt 
+   14  cat kubeadmin-password  >> mypass.txt 
+   15  vim mypass.txt 
+   16  source mypass.txt 
+   17  oc whoami 
+   18  oc login -u kubeadmin -p $_kube_pass $_api_url
+   19  uptime 
+   20  oc get nodes --kubeconfig kubeconfig
+   21  oc login -u kubeadmin -p $_kube_pass $_api_url
+   22  oc get pods -n openshift-authentication  --kubeconfig kubeconfig
+   23  oc get pods -n openshift-apiserver  --kubeconfig kubeconfig
+   24  oc login -u kubeadmin -p $_kube_pass $_api_url
+   25  uptime 
+   26  oc login -u kubeadmin -p $_kube_pass $_api_url
+   27  for x in {1..100}; do oc login -u kubeadmin -p $_kube_pass $_api_url; sleep 5; echo "-----------------------"; done
+   28  oc login -u kubeadmin -p $_kube_pass $_api_url
+   29  oc whoami 
+   30  uptime 
+   31  oc whoami 
+   32  ll
+   33  htpasswd --help 
+   34  htpasswd -c -B -b htpasswd-file-upload-01 armstrong KJHDksjhajkYTY
+   35  htpasswd    -B -b htpasswd-file-upload-01 jobs HGjhkyugyughjgHGH
+   36  htpasswd    -B -b htpasswd-file-upload-01 wozniak JHGJHgyutyuuiJHGH
+   37  htpasswd    -B -b htpasswd-file-upload-01 jack HJGKJhuihjGHJGUJKH
+   38  htpasswd    -B -b htpasswd-file-upload-01 eric JHJKHJKLHJGhydgfdhjgjk
+   39  cat htpasswd-file-upload-01 
+   40  history | grep htpasswd
+   41  vim mypass.txt 
+   42  source mypass.txt 
+   43  oc whoami 
+   44  uptime 
+   45  ll
+   46  oc create secret generic ex280-htpass --from-file htpasswd=htpasswd-file-upload-01 -n openshift-config 
+   47  oc get secret -n openshift-config 
+   48  oc get secret ex280-htpass -n openshift-config 
+   49  oc get oauth/cluster -o yaml > oauth.yaml 
+   50  vim oauth.yaml 
+   51  oc replace -f oauth.yaml 
+   52  oc login -u armstrong -p $armstrong 
+   53  #oc login -u armstrong
+   54  cat mypass.txt 
+   55  oc login -u armstrong -p $armstrong 
+   56  oc login -u armstrong -p KJHDksjhajkYTY
+   57  oc login -u armstrong -p $armstrong 
+   58  oc login -u jobs -p $jobs 
+   59  oc login -u jack -p $jack 
+   60  oc login -u eric -p $eric 
+   61  oc login -u wozniak -p $wozniak
+   62  oc whoami 
+   63  history 
+   64  history | grep login 
+   65  oc login -u kubeadmin -p $_kube_pass $_api_url
+   66  oc get users
+   67  oc get identity 
+   68  oc new-project project1 
+   69  oc new-project project2
+   70  oc new-project project3
+   71  oc new-project project4
+   72  oc new-project project5
+   73  pwd
+   74  oc adm policy add-role-to-user admin armstrong -n project1
+   75  oc project -q
+   76  oc project project1
+   77  oc project -q
+   78  oc describe rolebindings.rbac.authorization.k8s.io |less
+   79  oc adm policy add-role-to-user view jack -n project2
+   80  oc adm policy add-role-to-user view eric -n project2
+   81  oc project project2
+   82  oc describe rolebindings.rbac.authorization.k8s.io |less
+   83  oc adm policy add-role-to-user edit wozniak -n project1
+   84  oc project -q
+   85  oc describe rolebindings.rbac.authorization.k8s.io |less
+   86  oc project project1
+   87  oc describe rolebindings.rbac.authorization.k8s.io |less
+   88  oc whoami 
+   89  oc adm policy add-cluster-role-to-user cluster-admin jobs 
+   90  oc login -u jobs -p ${jobs}
+   91  oc get nodes
+   92  oc login -u wozniak -p $wozniak
+   93  oc get nodes
+   94  oc login -u jobs -p ${jobs}
+   95  oc whoami 
+   96  oc describe clusterrolebindings.rbac.authorization.k8s.io |less
+   97  oc describe clusterrolebindings.rbac.authorization.k8s.io  self-provisioner
+   98  oc adm policy remove-cluster-role-from-group self-provisioner system:authenticated:oauth
+   99  oc get secret kubeadmin -n kube-system 
+  100  oc delete secret kubeadmin -n kube-system 
+  101  history 
+  102  oc adm groups new commander 
+  103  oc adm groups new pilot 
+  104  oc get groups
+  105  oc adm groups add-users --help |less
+  106  #oc adm groups add-users my-group user1 user2
+  107  oc adm  groups add-users commander armstrong 
+  108  oc get groups
+  109  oc adm  groups add-users pilot jack eric 
+  110  oc get groups
+  111  oc adm policy add-role-to-group edit command -n project3 
+  112  oc adm policy add-role-to-group edit commander -n project3 
+  113  oc adm policy add-role-to-group view pilot -n project1 
+  114  oc whoami 
+  115  oc create quota --help |less
+  116  #oc create quota my-quota --hard=cpu=1,memory=1G,pods=2,services=3,replicationcontrollers=2,resourcequotas=1,secrets=5,persistentvolumeclaims=10
+  117  oc create quota ex280-quota --hard=cpu=2,memory=1Gi,pods=3,services=6,replicationcontrollers=2 -n project1
+  118  oc get resourcequotas -n project1
+  119  oc describe resourcequotas -n project1
+  120  vim limitRange.yaml 
+  121  oc create -f limitRange.yaml --save-config -n project1 
+  122  oc describe limitranges -n project1
+  123  oc describe  resourcequotas -n project1
+  124  cat limitRange.yaml 
+  125  cd work/
+  126  pwd
+  127  ll
+  128  git clone https://github.com/cprakash2118/280p
+  129  ll
+  130  cd 280p/
+  131  pwe
+  132  pwd
+  133  ll
+  134  vim exam380.sh 
+  135  ansible-vault decrypt exam380.sh 
+  136  vim exam380.sh 
+  137  oc whoami 
+  138  oc get nodes
+  139  ll
+  140  chmod 755 exam380.sh 
+  141  cp -rpv exam380.sh ~/
+  142  cd
+  143  #./exam380.sh 
+  144  oc projects | grep ex280
+  145  ./exam380.sh 
+  146  oc projects | grep ex280
+  147  oc project exam-ex280-7
+  148  oc project -q
+  149  oc get pods
+  150  oc get events | grep -i taint 
+  151  oc get nodes
+  152  oc get pods
+  153  oc logs app1-5986649dc9-lb5c6 
+  154  oc get pods
+  155  oc get svc 
+  156  oc describe svc 
+  157  oc get deployment 
+  158  oc get dc 
+  159  oc get deploymentconfig 
+  160  oc get route 
+  161  oc describe nodes | grep -i taint 
+  162  #oc adm taint node worker01
+  163  oc get nodes
+  164  oc adm taint node worker01 key1=value1:NoSchedule- 
+  165  oc adm taint node worker02 key1=value1:NoSchedule- 
+  166  oc describe nodes | grep -i taint
+  167  oc get pods
+  168  oc get pods -o wide 
+  169  oc edit nodes worker3
+  170  oc edit nodes worker03
+  171  oc describe nodes | grep -i taint
+  172  oc adm taint node worker04 key1=value1:NoSchedule-
+  173  oc adm taint node worker05 key1=value1:NoSchedule-
+  174  oc edit nodes worker06
+  175  oc describe nodes | grep -i taint
+  176  oc 
+  177  oc get pods
+  178  oc get route 
+  179  history 
+  180  oc projects | grep ex280
+  181  oc project exam-ex280-8
+  182  oc project -q
+  183  oc get pods
+  184  #oc scale --replicas=5 deployment/test01
+  185  oc get pods
+  186  oc get svc
+  187  oc get deployment 
+  188  oc scale --replicas=5 deployment/test01
+  189  oc get pods
+  190  oc project |grep ex280
+  191  oc projects |grep ex280
+  192  oc project exam-ex280-9
+  193  oc get pods
+  194  oc get hpa
+  195  oc autoscale --help |less
+  196  #oc autoscale rc foo --max=5 --cpu-percent=80
+  197  #oc autoscale deployment paypal --max=10 --min=4 --cpu-percent=70 
+  198  oc get pods
+  199  oc autoscale deployment paypal --max=10 --min=4 --cpu-percent=70 
+  200  oc get hpa
+  201  oc get pods
+  202  oc get route 
+  203  oc set resources --help |less
+  204  #oc set resources deployment nginx --limits=cpu=200m,memory=512Mi --requests=cpu=100m,memory=256Mi
+  205  oc set resources deployment paypal --limits=cpu=100m  --requests=cpu=10m 
+  206  oc describe nodes worker01 |less
+  207  oc get po
+  208  oc describe nodes worker01 |less
+  209  #oc set resources deployment paypal --limits=cpu=100m  --requests=cpu=10m 
+  210  oc describe nodes worker01 |less
+  211  oc get pods
+  212  oc describe pod paypal-fcddb6474-b5857 |less
+  213  #oc describe nodes worker01 |less
+  214  oc get pods
+  215  oc new-project demo01 
+  216  oc project -q
+  217  oc new-app --name google quay.io/cprakash2118/april-java-unzip-httpd-image-02
+  218  oc get pods
+  219  oc get pods -w
+  220  oc get pods 
+  221  oc logs google-7dc7dc6866-8xglk 
+  222  cat /run/sshd.pid 
+  223  oc create serviceaccount app-sa 
+  224  oc adm policy add-scc-to-user anyuid -z app-sa 
+  225  oc set serviceaccount --help |less
+  226  oc get pods
+  227  oc get deployment 
+  228  oc set serviceaccount deployment google app-sa 
+  229  oc get pods
+  230  oc scale --replicas=3 deployment google
+  231  oc get pods
+  232  oc get pods -w
+  233  oc get pods 
+  234  oc get pods
+  235  oc get svc 
+  236  oc describe svc 
+  237  oc get pods -o wide 
+  238  oc rsh google-7cc54c8546-2grj5 
+  239  oc get pods
+  240  oc rsh google-7cc54c8546-2grj5
+  241  oc rsh google-7cc54c8546-h6g6t
+  242  oc rsh google-7cc54c8546-vjd57
+  243  oc get pods
+  244  oc get svc 
+  245  oc get deployment 
+  246  oc get route 
+  247  oc expose service google 
+  248  oc get route 
+  249  curl http://google-demo01.apps.ocp4.example.com
+  250  oc get route 
+  251  oc get svc 
+  252  oc describe svc 
+  253  oc get pods
+  254  oc rsh google-7cc54c8546-2grj5 
+  255  oc get pods
+  256  oc get svc 
+  257  oc get route 
+  258  oc get nodes
+  259  oc get route 
+  260  oc get deployment 
+  261  oc get pods
+  262  oc get deployment google -o yaml > deployment.yml
+  263  vim deployment.yml 
+  264  oc replace -f deployment.yml 
+  265  oc get pods
+  266  vim deployment.yml 
+  267  oc replace -f deployment.yml 
+  268  oc get deployment google -o yaml > deployment.yml
+  269  vim deployment.yml 
+  270  oc replace -f deployment.yml 
+  271  oc get pods
+  272  oc projects | grep ex280
+  273  oc project exam-ex280-9
+  274  oc get pods
+  275  oc get hpa
+  276  oc describe pod paypal-fcddb6474-c8hj9 |less
+  277  oc project demo01 
+  278  oc get route 
+  279  cd work/
+  280  ll
+  281  mkdir data
+  282  cd data/
+  283  pwd
+  284  ll
+  285  openssl genrsa -out ex280.key 2048
+  286  ll
+  287  openssl req -new -key ex280.key -out ex280.csr -subj "/C=IN/ST=Karnataka/L=Bangalore/O=Security/OU=IT Department/CN=www.example.com" 
+  288  ll
+  289  vim ex280.csr 
+  290  openssl x509 -req -in ex280.csr -signkey ex280.key -out ex280.crt
+  291  ll
+  292  oc get pods
+  293  oc get svc 
+  294  oc get deployment 
+  295  oc get route 
+  296  oc create route edge --help |less
+  297  oc create route edge ex280v410-edge --keys ex280.key --certs ex280.crt 
+  298  oc create route edge ex280v410-edge --key ex280.key --certs ex280.crt 
+  299  oc create route edge --help |less
+  300  oc create route edge ex280v410-edge --key ex280.key --certs ex280.crt 
+  301  oc create route edge ex280v410-edge --key ex280.key --cert ex280.crt 
+  302  oc create route edge ex280v410-edge service google  --key ex280.key --cert ex280.crt 
+  303  oc create route --service google  edge ex280v410-edge   --key ex280.key --cert ex280.crt 
+  304  oc get route 
+  305  pwd
+  306  ll
+  307  cd ..
+  308  ll
+  309  cd  280p/
+  310  pwd
+  311  ll
+  312  ansible-vault encrypt exam380.sh 
+  313  history > history-sep23.txt 
